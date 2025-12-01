@@ -29,7 +29,7 @@
 </div>
 
 <script>
-const API = "https://coupon-backend-rnot.onrender.com"; // replace with your host
+const API = "https://coupon-backend-mg5r.onrender.com"; // replace with your host
 
 async function generateCoupon() {
     const phone = document.getElementById("phone").value;
@@ -64,3 +64,4 @@ async function redeem() {
 
 </body>
 </html>
+
