@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Coupon Code Manager</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        input, button { padding: 10px; margin: 5px 0; }
+    </style>
+</head>
+<body>
+
+<h2>Coupon Code Manager</h2>
+
+<!-- Generate -->
+<div>
+    <h3>Generate Coupon</h3>
+    <input type="text" id="phone" placeholder="Enter phone number" />
+    <button onclick="generateCoupon()">Generate</button>
+</div>
+
+<hr>
+
+<!-- Redeem -->
+<div>
+    <h3>Redeem Coupon</h3>
+    <input type="text" id="redeemCode" placeholder="Enter coupon code" />
+    <button onclick="redeem()">Redeem</button>
+    <p id="result"></p>
+</div>
+
+<script>
+const API = "https://coupon-backend-rnot.onrender.com"; // replace with your host
+
+async function generateCoupon() {
+    const phone = document.getElementById("phone").value;
+
+    const res = await fetch(API + "/generate", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ phone })
+    });
+
+    const data = await res.json();
+    alert("Coupon: " + data.code + "\nPhone: " + data.phone);
+}
+
+async function redeem() {
+    const code = document.getElementById("redeemCode").value;
+
+    const res = await fetch(API + "/redeem", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ code })
+    });
+
+    const data = await res.json();
+    const result = document.getElementById("result");
+
+    if (data.status === "invalid") result.textContent = "? Invalid coupon";
+    else if (data.status === "already") result.textContent = "?? Already redeemed";
+    else result.textContent = "? Redeemed by phone: " + data.phone;
+}
+</script>
+
+</body>
+</html>
